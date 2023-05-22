@@ -3,11 +3,14 @@ from parsel import Selector
 import time
 import re
 
+
 # Requisito 1
 def fetch(url):
     time.sleep(1)
     try:
-        response = requests.get(url,headers={ "user-agent": "Fake user-agent" },timeout=3)
+        response = requests.get(
+            url, headers={"user-agent": "Fake user-agent"}, timeout=3
+        )
         if response.status_code == 200:
             return response.text
         else:
@@ -39,13 +42,12 @@ def scrape_news(html_content):
         "title": (reponse.css("h1.entry-title::text").get()).strip(),
         "timestamp": reponse.css("li.meta-date::text").get(),
         "writer": reponse.css("a.url.fn.n::text").get(),
-        "reading_time": int(re.findall(r'\d+', reading_time)[0]),
+        "reading_time": int(re.findall(r"\d+", reading_time)[0]),
         "summary": "".join(
             reponse.css(".entry-content > p:first-of-type *::text").getall()
         ).strip(),
-        "category": reponse.css("span.label::text").get()
+        "category": reponse.css("span.label::text").get(),
     }
-
 
 
 # Requisito 5
